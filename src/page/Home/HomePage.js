@@ -17,10 +17,10 @@ class HomePage extends React.Component {
                         <Sider>
                             <Menu theme="light" style={{height: "100%"}}>
                                 <Menu.Item key="1">
-                                    <Link to="/home/categorites">分类管理</Link>
+                                    <Link to="/home/categorites"><Icon type="setting"/>分类管理</Link>
                                 </Menu.Item>
                                 <Menu.Item key="2">
-                                    <Link to="/home/articles">文章列表</Link>
+                                    <Link to="/home/articles"><Icon type="setting"/>文章列表</Link>
                                 </Menu.Item>
                             </Menu>
                         </Sider>
