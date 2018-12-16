@@ -7,7 +7,7 @@ class ArticlesHead extends React.Component {
     render() {
         return (
             <div className="ArticlesHead">
-                <AddButton/>
+                <AddButton history={this.props.history}/>
                 <Search/>
             </div>
         )

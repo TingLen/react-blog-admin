@@ -52,7 +52,8 @@ class Articles extends React.Component {
     }
 
     editRow = (record) => {
-
+        const { history } = this.props
+        history.push("/home/add")
     }
 
     deleteRow = (record) => {
@@ -76,7 +77,7 @@ class Articles extends React.Component {
     render() {
         return (
             <div className="Articles">
-                <ArticlesHead/>
+                <ArticlesHead history={this.props.history}/>
                 <Table columns={this.columns} dataSource={this.dataSource}/>
             </div>
         )

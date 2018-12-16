@@ -4,6 +4,7 @@ import { Menu, Icon } from 'antd'
 import { BrowserRouter as Router,Route,Link } from 'react-router-dom'
 import Categories from './component/Categories/Categories'
 import Articles from './component/Articles/Articles'
+import AddArticle from './component/AddArticle/AddArticle'
 
 const { Sider,Content } = Layout
 
@@ -26,7 +27,8 @@ class HomePage extends React.Component {
                         </Sider>
                             <Content>
                                 <Route path="/home/categorites" component={Categories} />
-                                <Route path="/home/articles" component={Articles}/>            
+                                <Route path="/home/articles" component={Articles}/>
+                                <Route path="/home/add" component={AddArticle}/>            
                             </Content>
                     </Layout>
                 </div>
