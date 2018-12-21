@@ -6,7 +6,8 @@ class AddCategoryButton extends React.Component {
         return (
             <Button
              className="component"
-             type="primary">添加</Button>
+             type="primary"
+             onClick={this.props.toggleAddForm}>添加</Button>
         );
     }
 }

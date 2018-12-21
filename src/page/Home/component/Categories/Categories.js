@@ -1,8 +1,9 @@
 import React from 'react'
 import { Table,Button,Modal } from 'antd'
 import './Categories.css'
-import EditForm from './component/EditTableCell'
-import AddCategoryButton from './component/AddCategoryButton'
+import EditForm from './component/EditTableCell/EditTableCell'
+import AddCategoryButton from './component/AddCategoryButton/AddCategoryButton'
+import AddForm from './component/AddForm/AddForm'
 
 const confirm = Modal.confirm
 
@@ -15,7 +16,8 @@ class Categories extends React.Component {
             editRecord:{
                 id: '',
                 tag: '',
-            }
+            },
+            showAddForm: false
         }
 
         this.columns = [{
@@ -83,7 +85,6 @@ class Categories extends React.Component {
       }
 
     handleClickOutside = (e) => {
-        console.log(this.cell)
         if(this.cell !== undefined && this.cell !== null && (!this.cell.contains(e.target)) && this.state.editable){
             this.setState({
                 editable: false
@@ -97,7 +98,6 @@ class Categories extends React.Component {
     }
 
     editRow = (record) => {
-        console.log(record)
         this.setState({
             editable: true,
             editRecord: record
@@ -121,6 +121,13 @@ class Categories extends React.Component {
           })
         
     }
+
+    toggleAddForm = () => {
+        this.setState({
+            showAddForm: !this.state.showAddForm
+        })
+    }
+
     render() {
         return (
             <div className="Categories">
@@ -128,7 +135,10 @@ class Categories extends React.Component {
                  columns={this.columns}
                  dataSource={this.dataSource}
                  pagination={false}/>
-                 <AddCategoryButton/>
+                 <AddCategoryButton toggleAddForm={this.toggleAddForm}/>
+                 <AddForm
+                  showAddForm={this.state.showAddForm}
+                  toggleAddForm={this.toggleAddForm}/>
             </div>
         )
     }

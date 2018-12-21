@@ -1,0 +1,26 @@
+.AddForm,.AddForm_content{
+    position: absolute;
+    left: 0; 
+    top: 0; 
+    right: 0; 
+    bottom: 0;
+    margin: auto;
+
+}
+.AddForm{
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+.AddForm .AddForm_content{
+    width: 400px;
+    height: 150px;
+    padding: 20px;
+    border-radius:10px;
+    background-color: #fff;
+    -webkit-border-radius:10px;
+    -moz-border-radius:10px;
+    -ms-border-radius:10px;
+    -o-border-radius:10px;
+}
