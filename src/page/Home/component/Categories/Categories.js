@@ -2,6 +2,7 @@ import React from 'react'
 import { Table,Button,Modal } from 'antd'
 import './Categories.css'
 import EditForm from './component/EditTableCell'
+import AddCategoryButton from './component/AddCategoryButton'
 
 const confirm = Modal.confirm
 
@@ -127,6 +128,7 @@ class Categories extends React.Component {
                  columns={this.columns}
                  dataSource={this.dataSource}
                  pagination={false}/>
+                 <AddCategoryButton/>
             </div>
         )
     }
