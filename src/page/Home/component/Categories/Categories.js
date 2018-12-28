@@ -4,6 +4,7 @@ import './Categories.css'
 import EditForm from './component/EditTableCell/EditTableCell'
 import AddCategoryButton from './component/AddCategoryButton/AddCategoryButton'
 import AddForm from './component/AddForm/AddForm'
+import { get } from '../../../../http/http'
 
 const confirm = Modal.confirm
 
@@ -17,7 +18,8 @@ class Categories extends React.Component {
                 id: '',
                 tag: '',
             },
-            showAddForm: false
+            showAddForm: false,
+            dataSource: []
         }
 
         this.columns = [{
@@ -60,24 +62,28 @@ class Categories extends React.Component {
                 )
             }
         }]
-        this.dataSource = [{
-            key: "1",
-            id: "1",
-            tag: "java",
-        },{
-            key: "2",
-            id: "2",
-            tag: "vue",
-        }]
     }
 
 
+    componentDidMount(){
+        //从数据库获取获取数据
+        get('http://localhost:8080/category/get')
+        .then(res => {
+            res.forEach(item => {
+                item.key = item.id
+            })
+            this.setState({ 
+                dataSource:res 
+            })
+        })
+    }
     componentDidUpdate(){
+        //给编辑category添加监听事件，若编辑时，点击输入框外，则为保存操作
         if(this.state.editable){
             document.addEventListener('click',this.handleClickOutside,true)
-
         }
     }
+
     componentWillUnmount() {
         if (this.state.editable) {
           document.removeEventListener('click', this.handleClickOutside, true);
@@ -133,7 +139,7 @@ class Categories extends React.Component {
             <div className="Categories">
                 <Table
                  columns={this.columns}
-                 dataSource={this.dataSource}
+                 dataSource={this.state.dataSource}
                  pagination={false}/>
                  <AddCategoryButton toggleAddForm={this.toggleAddForm}/>
                  <AddForm
