@@ -30,7 +30,7 @@ class LoginForm extends React.Component {
                     }
                     else{
                         message.error(res.message)
-
+                        this.props.form.resetFields()
                     }
                 })
         }
