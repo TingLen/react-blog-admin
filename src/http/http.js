@@ -1,9 +1,16 @@
 import axios from 'axios'
 
+<<<<<<< HEAD
 axios.defaults.baseURL = "/"
 axios.defaults.timeout = 10000
 
 
+=======
+axios.defaults.baseURL = "http://localhost:8080"
+axios.defaults.timeout = 10000
+
+export default axios
+>>>>>>> dev
 // Add a request interceptor
 axios.interceptors.request.use( config => {
     // 加载动画
@@ -36,11 +43,7 @@ export const get = (url,params) => {
 }
 
 export const post = (url,params) => {
-    return axios({
-        method: 'post',
-        url,
-        params
-    })
+    return axios.post(url,params)
 }
 
 export const allRequest = (requests) => {
