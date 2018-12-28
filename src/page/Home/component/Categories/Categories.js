@@ -25,7 +25,10 @@ class Categories extends React.Component {
         this.columns = [{
             title: "Id",
             dataIndex: "id",
-            key: "id"
+            key: "id",
+            render: (text,record,index) => {
+                return index + 1
+            }
         },{
             title: "Tag",
             dataIndex: 'tag',
