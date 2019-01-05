@@ -2,6 +2,9 @@ import axios from 'axios'
 
 axios.defaults.baseURL = "/"
 axios.defaults.timeout = 10000
+axios.defaults.headers = {
+  'Content-Type': 'application/json;'
+}
 
 
 // Add a request interceptor
@@ -28,11 +31,7 @@ axios.interceptors.response.use( response =>  {
 
 
 export const get = (url,params) => {
-    return axios({
-        method: 'get',
-        url,
-        params
-    })
+    return axios.get(url,params)
 }
 
 export const post = (url,params) => {

@@ -1,144 +1,141 @@
 import React from 'react'
-import { Table,Button,Modal } from 'antd'
+import { Table,Button,Modal,Spin,message,Popconfirm } from 'antd'
 import './Categories.css'
-import EditForm from './component/EditTableCell/EditTableCell'
+import { EditableFormRow } from './component/EditFormRow/EditFormRow'
+import { EditFormCell } from './component/EditFormCell/EditFormCell'
 import AddCategoryButton from './component/AddCategoryButton/AddCategoryButton'
 import AddForm from './component/AddForm/AddForm'
+import { get,post } from '../../../../http/http'
 
 const confirm = Modal.confirm
+
+const components = {
+    body: {
+        row: EditableFormRow,
+        cell: EditFormCell
+    }
+}
+
 
 class Categories extends React.Component {
     constructor(props){
         super(props)
 
+        this.columns = [{
+            title: 'tag',
+            dataIndex: 'tag',
+            editable: true,
+          }, {
+            title: 'operation',
+            dataIndex: 'operation',
+            render: (text, record) => (
+              this.state.dataSource.length >= 1
+                ? (
+                  <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.tag)}>
+                    <a href="javascript:;">Delete</a>
+                  </Popconfirm>     
+                ) : null
+            ),
+          }]
+
         this.state = {
-            editable: false,
-            editRecord:{
-                id: '',
-                tag: '',
-            },
+            dataSource:[],
             showAddForm: false
         }
 
-        this.columns = [{
-            title: "Id",
-            dataIndex: "id",
-            key: "id"
-        },{
-            title: "Tag",
-            dataIndex: 'tag',
-            key: "tag",
-            render: (text, record, index) => (
-                (this.state.editRecord.id === record.id && this.state.editable) ? (
-                    <div ref={node => {this.cell = node}}>
-                        <EditForm
-                     record={record} />
-                    </div>
-                ) : (
-                    <div>
-                        {text}
-                    </div>
-                )
-            )
-        },{
-            title: "Action",
-            dataIndex: "action",
-            key: "action",
-            render: (text, record, index) => {
-                return (
-                    <div>
-                        <Button 
-                        type="primary"
-                        size="small"
-                        className="component"
-                        onClick={() => this.editRow(record)}>编辑</Button>
-                        <Button type="danger"
-                        size="small"
-                        className="component"
-                        onClick={() => this.deleteRow(record)}>删除</Button>
-                    </div>  
-                )
-            }
-        }]
-        this.dataSource = [{
-            key: "1",
-            id: "1",
-            tag: "java",
-        },{
-            key: "2",
-            id: "2",
-            tag: "vue",
-        }]
     }
 
-
-    componentDidUpdate(){
-        if(this.state.editable){
-            document.addEventListener('click',this.handleClickOutside,true)
-
-        }
+    componentDidMount(){
+        this.getCategory()
     }
-    componentWillUnmount() {
-        if (this.state.editable) {
-          document.removeEventListener('click', this.handleClickOutside, true);
-        }
-      }
 
-    handleClickOutside = (e) => {
-        if(this.cell !== undefined && this.cell !== null && (!this.cell.contains(e.target)) && this.state.editable){
-            this.setState({
-                editable: false
+    getCategory = (isAfterUpdate,message) => {
+        if(isAfterUpdate){
+            get("/category/get")
+            .then(res => {
+                this.setState({
+                    dataSource: res.map(item => {
+                        item.key = item.id
+                        return item
+                    })
+                },() => {
+                    message.success(message)
+                })
             })
-            this.updateTag()
+        }
+        else{
+            get("/category/get")
+            .then(res => {
+                this.setState({
+                    dataSource: res.map(item => {
+                        item.key = item.id
+                        return item
+                    })
+                })
+            })
         }
     }
 
-    updateTag = () => {
-        console.log(this.state.editRecord)
-    }
-
-    editRow = (record) => {
-        this.setState({
-            editable: true,
-            editRecord: record
+    handleSave = (row) => {
+        post("/category/update",{
+            id: row.id,
+            tag: row.tag
         })
+        .then(res => {
+                if(res.success){
+                    this.getCategory(true,res.message)
+                    return
+                }
+                message.error(res.message)
+            })
     }
 
-    deleteRow = (record) => {
-        const { id } = record
-
-        confirm({
-            title: '确认删除这条记录吗?',
-            okText: 'Yes',
-            okType: 'danger',
-            cancelText: 'No',
-            onOk() {
-              console.log('OK');
-            },
-            onCancel() {
-              console.log('Cancel');
-            },
-          })
-        
+    handleDelete = (tag) => {
+        post("/category/delete",tag)
+            .then(res => {
+                if(res.success){
+                    this.getCategory(true,res.message)
+                    return
+                }
+                message.error(res.message)
+            })
     }
-
+    
     toggleAddForm = () => {
+        const { showAddForm } = this.state
         this.setState({
-            showAddForm: !this.state.showAddForm
+            showAddForm: !showAddForm
         })
     }
+    
 
     render() {
+        const columns = this.columns.map((col) => {
+            if (!col.editable) {
+              return col;
+            }
+            return {
+              ...col,
+              onCell: record => ({
+                record,
+                editable: col.editable,
+                dataIndex: col.dataIndex,
+                title: col.title,
+                handleSave: this.handleSave,
+              }),
+            }
+          })
         return (
             <div className="Categories">
-                <Table
-                 columns={this.columns}
-                 dataSource={this.dataSource}
-                 pagination={false}/>
-                 <AddCategoryButton toggleAddForm={this.toggleAddForm}/>
-                 <AddForm
-                  showAddForm={this.state.showAddForm}
-                  toggleAddForm={this.toggleAddForm}/>
+                <Table 
+                    components={components}
+                    columns={columns}
+                    dataSource={this.state.dataSource}/>
+                    <AddCategoryButton toggleAddForm={this.toggleAddForm}/>
+                    <AddForm
+                     showAddForm={this.state.showAddForm}
+                     toggleAddForm={this.toggleAddForm}
+                     getCategory={this.getCategory}/>
             </div>
         )
     }
