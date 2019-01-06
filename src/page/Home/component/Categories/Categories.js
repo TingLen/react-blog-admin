@@ -66,7 +66,6 @@ class Categories extends React.Component {
         else{
             get("/category/get")
             .then(res => {
-                console.log(res)
                 this.setState({
                     dataSource: res.map(item => {
                         item.key = item.id
