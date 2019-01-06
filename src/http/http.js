@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-axios.defaults.baseURL = "/"
+axios.defaults.baseURL = "http://localhost:8080"
 axios.defaults.timeout = 10000
 axios.defaults.headers = {
   'Content-Type': 'application/json;'
