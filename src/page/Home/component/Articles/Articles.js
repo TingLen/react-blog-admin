@@ -21,6 +21,10 @@ class Articles extends React.Component {
             dataIndex: 'title',
             key: "title"
         },{
+            title: "分类",
+            dataIndex: 'tag',
+            key: "tag"
+        },{
             title: "操作",
             dataIndex: "action",
             key: "action",
@@ -47,7 +51,8 @@ class Articles extends React.Component {
             key: "1",
             id: "1",
             date: "2018-10-10",
-            title: '这是标题'
+            title: '这是标题',
+            tag: 'java'
         }]
     }
 
