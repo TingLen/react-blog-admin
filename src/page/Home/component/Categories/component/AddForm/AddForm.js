@@ -16,6 +16,8 @@ class AddForm extends React.Component {
             .then(res => {
                 if(res.success){
                     this.props.getCategory(true,res.message)
+                    //清空input内容
+                    
                     return
                 }
                 message.error(res.message)

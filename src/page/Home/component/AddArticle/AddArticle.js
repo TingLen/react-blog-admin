@@ -3,6 +3,7 @@ import './AddArticle.css'
 import SimpleMDE from 'simplemde'
 import 'simplemde/dist/simplemde.min.css'
 import UploadButton from './component/UploadButton';
+import ArticleInfo from './component/ArticleInfo'
 
 
 
@@ -31,6 +32,7 @@ class AddArticle extends React.Component {
     render() {
         return (
             <div className="AddArticle component">
+                <ArticleInfo/>
                 <textarea id="mdEdit"/>
                 <UploadButton update={ this.update }/>
             </div>
