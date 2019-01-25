@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { message } from 'antd'
 
 axios.defaults.baseURL = "http://localhost:8080"
 axios.defaults.timeout = 10000
@@ -24,7 +25,8 @@ axios.interceptors.response.use( response =>  {
     return data
   }, err => {
     // Do something with response error
-    console.log(err)
+    message.error(err.response.data.message)
+    console.log(err.response)
     return Promise.reject(err)
   });
 
@@ -36,6 +38,13 @@ export const get = (url,params) => {
 
 export const post = (url,params) => {
     return axios.post(url,params)
+}
+
+export const delete_ = (url,params) => {
+  return axios.delete(url,{data: params})
+}
+export const put = (url,params) => {
+  return axios.put(url,params)
 }
 
 export const allRequest = (requests) => {

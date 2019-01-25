@@ -1,21 +1,14 @@
 import React from 'react'
 import { Form,Select,Input } from 'antd'
 import './Search.css'
+import { getFilterList,setVisibleFilter,searchTilte } from '../../../../../../../../actions'
 import { get } from '../../../../../../../../http/http'
+import { connect } from 'react-redux'
 
 const FormItem = Form.Item
 const Option = Select.Option
-
-const dates = ['2018-2-2','2018-3-3','2018-4-4']
-
 class Search extends React.Component {
 
-    constructor(props){
-        super(props)
-        this.state = {
-            categories:[]
-        }
-    }
 
     componentDidMount(){
         //获取分类数据
@@ -28,9 +21,8 @@ class Search extends React.Component {
                 let categories = res.map(item => {
                     return item.tag
                 })
-                this.setState({
-                    categories: categories
-                })
+                categories.unshift('全部')
+                this.props.getCategories(categories)
             })
     }
 
@@ -44,22 +36,30 @@ class Search extends React.Component {
             <Option value={date} key={date}>{date}</Option>
         ))
     }
+
+    selectCategory = (value) => {
+        this.props.setVisibilityCategory(value)
+    }
+
+    search = (e) => {
+        let title = this.refs.inputText.input.value
+        this.props.searchTitle(title)
+    }
+
     render() {
         return (
             <div className="Search component">
                 <Form layout="inline">
                     <FormItem label="分类：">
-                        <Select style={{width: 100}}>
-                            {this.getCategoriesSelect(this.state.categories)}
-                        </Select>
-                    </FormItem>
-                    <FormItem label="日期：">
-                        <Select style={{width: 120}}>
-                            {this.getCategoriesSelect(dates)}
+                        <Select 
+                        defaultValue='全部' 
+                        style={{width: 100}}
+                        onChange={(value) => this.props.setVisibilityCategory(value)}>
+                            {this.getCategoriesSelect(this.props.categories)}
                         </Select>
                     </FormItem>
                     <FormItem label="标题">
-                        <Input/>
+                        <Input ref='inputText' onPressEnter={this.search} type='text'/>
                     </FormItem>
                 </Form>
             </div>
@@ -67,4 +67,18 @@ class Search extends React.Component {
     }
 }
 
-export default Search
+const mapStateToProps = (state) => {
+    return {
+        categories: state.filterList
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getCategories: categories => dispatch(getFilterList(categories)),
+        setVisibilityCategory: category => dispatch(setVisibleFilter(category)),
+        searchTitle: title => dispatch(searchTilte(title))
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Search)

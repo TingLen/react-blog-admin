@@ -19,9 +19,14 @@ class AddArticle extends React.Component {
             spellChecker:false
          })
     }
+
+    /**
+     * value： 获取markdown语法字符串
+     * markdown: 传入markdown语法字符串并转化为html标签字符串
+     */
     update = () => {
         const text = this.simplemde.value()
-        console.log(text)
+        
     }
     render() {
         return (
