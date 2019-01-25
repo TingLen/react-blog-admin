@@ -1,7 +1,7 @@
 import React from 'react'
 import './AddForm.css'
 import { Button,Input,message } from 'antd'
-import { post } from '../../../../../../http/http'
+import { put } from '../../../../../../http/http'
 
 
 class AddForm extends React.Component {
@@ -12,7 +12,7 @@ class AddForm extends React.Component {
         }
     }
     onSubmit = () => {
-        post("category/add",this.state.value)
+        put("category/add",this.state.value)
             .then(res => {
                 if(res.success){
                     this.props.getCategory(true,res.message)
