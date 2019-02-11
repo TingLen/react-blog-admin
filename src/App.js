@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route } from "react-router-dom"
+import { Router, Route } from "react-router-dom"
 import LoginPage from './page/login/LoginPage'
 import HomePage from './page/Home/HomePage'
 import './App.css'
+import history from './history/history'
 
 class App extends Component {
   render() {
     return (
-      <Router>
+      <Router history={history}>
         <div className="App">
           <Route path="/login" component={LoginPage} />
           <Route path="/home" component={HomePage}/>

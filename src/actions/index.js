@@ -1,11 +1,19 @@
 export const GET_LIST = 'GET_LIST'
 export const GET_CATEGORY = 'GET_CATEGORY'
+export const GET_CATEGORY_ADD = 'GET_CATEGORY_ADD'
 export const DELETE_ITEM = 'DELETE_ITEM'
 export const FILTER_LIST = 'FILTER_LIST'
 export const SET_VISIBLE_FILTER = 'SET_VISIBLE_FILTER'
 export const SEARCH_TITLE = 'SEARCH_TITLE'
+export const GET_ADD_ARTICLE = 'GET_ADD_ARTICLE'
 
 
+export const getAddArticle = (article) => {
+    return {
+        type: GET_ADD_ARTICLE,
+        article
+    }
+}
 
 export const getList = (list) => {
     return {
@@ -17,6 +25,13 @@ export const getList = (list) => {
 export const getCategory = (category) => {
     return {
         type: GET_CATEGORY,
+        category
+    }
+}
+
+export const getCategoryAdd = (category) => {
+    return {
+        type: GET_CATEGORY_ADD,
         category
     }
 }
