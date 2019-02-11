@@ -1,11 +1,13 @@
 import axios from 'axios'
 import { message } from 'antd'
+import history from '../history/history'
 
 axios.defaults.baseURL = "http://localhost:8080"
 axios.defaults.timeout = 10000
 axios.defaults.headers = {
   'Content-Type': 'application/json;'
 }
+axios.defaults.withCredentials = true
 
 export default axios
 // Add a request interceptor
@@ -25,8 +27,18 @@ axios.interceptors.response.use( response =>  {
     return data
   }, err => {
     // Do something with response error
-    message.error(err.response.data.message)
     console.log(err.response)
+    if(err.response && err.response.status){
+      switch (err.response.status) {
+        case 401:
+          message.error('token错误，请重新登录')
+          history.push('/login')
+          break;
+        default:
+          break;
+      }
+
+    }
     return Promise.reject(err)
   });
 

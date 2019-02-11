@@ -117,9 +117,6 @@ const getVisibleData = (list,filter,searchTitle) => {
          * 2.其余，title为空
          * 3.其余，title不为空
          */
-        console.log(ele)
-        console.log(ele.title === searchTitle)
-        console.log(ele.tag === filter)
         if(filter === '全部'){
             if(searchTitle === '') return ele
             if(ele.title === searchTitle) return ele

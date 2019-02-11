@@ -6,12 +6,7 @@ const FormItem = Form.Item
 const Option = Select.Option
 
 class ArticleInfo extends React.Component {
-    constructor(props){
-        super(props)
-        this.state = {
-            category: ''
-        }
-    }
+    
 
     getCategoriesSelect = (data) => {
         return data.map(item => (
@@ -19,28 +14,37 @@ class ArticleInfo extends React.Component {
         ))
     }
 
+    setCategory = (category) => {
+        let article = {}
+        article.category = category
+        this.props.getAddArticle(article)
+    }
+
+    setTitle = () => {
+        let article = {}
+        article.title = this.refs.inputTitle.input.value
+        this.props.getAddArticle(article)
+    }
+
     render() {
         return (
            <Form>
                <FormItem label='标题'>
-                   <Input typetext/>
+                   <Input
+                    ref='inputTitle'
+                    onChange={this.setTitle}
+                    type='text'/>
                </FormItem>
                <FormItem label='分类'>
                     <Select 
                         style={{width: 100}}
-                        onChange={(value) => this.setState({category: value})}>
+                        onChange={(value) => this.setCategory(value)}>
                             {this.getCategoriesSelect(this.props.categories)}
                     </Select>
                </FormItem>
            </Form> 
-        );
+        )
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        categories: state.filterList
-    }
-}
-
-export default connect(mapStateToProps)(ArticleInfo)
+export default ArticleInfo

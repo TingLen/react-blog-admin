@@ -4,6 +4,8 @@ import categories from './Category'
 import filterList from './VisibilityFilterList'
 import filter from './VisibilityFilter'
 import searchTitle from './SearchTitle'
+import categoryAdd from './CategoryAdd'
+import article from './AddArticle'
 
 
 export const rootReducers =  combineReducers({
@@ -11,5 +13,7 @@ export const rootReducers =  combineReducers({
     categories,
     filterList,
     filter,
-    searchTitle
+    searchTitle,
+    categoryAdd,
+    article
 })
